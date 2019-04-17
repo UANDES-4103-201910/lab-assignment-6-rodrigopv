@@ -25,19 +25,36 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    #complete this method
+    @user = User.create(user_params)
+    if @user.save
+      flash[:notice] = "User " + @user.name + " has been created"
+      redirect_to users_path
+    else
+      flash[:notice] = "Existe un error en los campos ingresados..."
+      render :new
+    end
   end
 
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
     #complete this method
+    if @user.update_attributes(user_params)
+       flash[:notice] = "User " + @user.name + " has been updated"
+       redirect_to users_path
+    else
+       flash[:notice] = "Existe un error en los campos ingresados..."
+       render :edit
+    end
   end
 
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
     #complete this method
+    @user.delete
+    flash[:notice] = "User " + @user.name + " has been deleted."
+    redirect_to users_path
   end
 
   private
